@@ -7,3 +7,4 @@
 * go 结构体，指针运用等
 * go 单元测试，需要将测试的内容放置在gopath或goroot中。
 * go runtime使用。
+* go protobuf rpc调用
