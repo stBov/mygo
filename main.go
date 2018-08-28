@@ -10,6 +10,7 @@ import (
 	"log"
 	"io/ioutil"
 	"mime"
+	"net/http"
 )
 
 const (
@@ -100,6 +101,10 @@ func main() {
 	go startRpcServer()
 	tryRpcClient()
 
+
+	http.HandleFunc("/", IndexHandler)
+	http.ListenAndServe("127.0.0.1:8000", nil)
+
 }
 
 //最大值
@@ -183,4 +188,8 @@ func tryRpcClient() {
 	}
 
 	fmt.Println(reply.GetValue())
+}
+
+func IndexHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintln(w, "hello world")
 }
