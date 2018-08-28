@@ -4,13 +4,8 @@ import (
 	"fmt"
 	"github.com/tidwall/gjson"
 	"runtime"
-	"github.com/chai2010/pbgo/examples/hello.pb"
-	"net/rpc"
-	"net"
-	"log"
-	"io/ioutil"
-	"mime"
-	"net/http"
+	"myhttp"
+	"myrpc"
 )
 
 const (
@@ -75,63 +70,6 @@ func isPrime(value int) bool {
 }
 
 
-type HelloService struct{}
-
-func (p *HelloService) Hello(request *hello_pb.String, reply *hello_pb.String) error {
-	reply.Value = "hello:" + request.GetValue()
-	return nil
-}
-func (p *HelloService) Echo(request *hello_pb.Message, reply *hello_pb.Message) error {
-	*reply = *request
-	return nil
-}
-
-func (p *HelloService) Static(request *hello_pb.String, reply *hello_pb.StaticFile) error {
-	data, err := ioutil.ReadFile("./testdata/" + request.Value)
-	if err != nil {
-		return err
-	}
-
-	reply.ContentType = mime.TypeByExtension(request.Value)
-	reply.ContentBody = data
-	return nil
-}
-
-func startRpcServer() {
-	hello_pb.RegisterHelloService(rpc.DefaultServer, new(HelloService))
-
-	listener, err := net.Listen("tcp", ":1234")
-	if err != nil {
-		log.Fatal("ListenTCP error:", err)
-	}
-
-	for {
-		conn, err := listener.Accept()
-		if err != nil {
-			log.Fatal("Accept error:", err)
-		}
-
-		go rpc.ServeConn(conn)
-	}
-}
-
-func tryRpcClient() {
-	client, err := hello_pb.DialHelloService("tcp", "localhost:1234")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	reply, err := client.Hello(&hello_pb.String{Value: "gopher"})
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	fmt.Println(reply.GetValue())
-}
-
-func IndexHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "hello world")
-}
 
 func main() {
 
@@ -184,40 +122,12 @@ func main() {
 	var f = fib()
 	fmt.Println(f(),f(),f(),f(),f(),f())
 
-	go startRpcServer()
-	tryRpcClient()
 
-	//handler := MyHandler{"shoes": 50, "socks": 5}
-	//mux := http.NewServeMux()
-	//mux.Handle("/list", http.HandlerFunc(handler.list))
-	//mux.Handle("/price", http.HandlerFunc(handler.price))
-	//log.Fatal(http.ListenAndServe("localhost:9000", mux))
+	myrpc.Rpcgo()
 
-
-	http.HandleFunc("/", IndexHandler)
-	http.ListenAndServe("127.0.0.1:8000", nil)
-
-
+	//myhttpfunc
+	myhttp.HandleFunc()
+	//myhttp 与func只能开启一个
+	myhttp.Handles()
 }
 
-type dollars float32
-func (d dollars) String() string {
-	return fmt.Sprintf("$%.2f", d)
-}
-
-type MyHandler map[string]dollars
-func (self MyHandler) list(w http.ResponseWriter, req *http.Request) {
-	for item, price := range self {
-		fmt.Fprintf(w, "%s: %s\n", item, price)
-	}
-}
-func (self MyHandler) price(w http.ResponseWriter, req *http.Request) {
-	item := req.URL.Query().Get("item")
-	price, ok := self[item]
-	if !ok {
-		w.WriteHeader(http.StatusNotFound) // 404
-		fmt.Fprintf(w, "no such item: %q\n", item)
-		return
-	}
-	fmt.Fprintf(w, "%s\n", price)
-}
