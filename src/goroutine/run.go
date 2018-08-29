@@ -1,8 +1,8 @@
 package goroutine
 
 import (
-	"runtime"
 	"fmt"
+	"runtime"
 )
 
 func say(s string){

@@ -1,8 +1,8 @@
 package myhttp
 
 import (
-	"net/http"
 	"fmt"
+	"net/http"
 )
 
 type dollars float32
@@ -11,14 +11,14 @@ func (d dollars) String() string {
 }
 
 type MyHandler map[string]dollars
-func (self MyHandler) list(w http.ResponseWriter, req *http.Request) {
-	for item, price := range self {
+func (m MyHandler) list(w http.ResponseWriter, req *http.Request) {
+	for item, price := range m {
 		fmt.Fprintf(w, "%s: %s\n", item, price)
 	}
 }
-func (self MyHandler) price(w http.ResponseWriter, req *http.Request) {
+func (m MyHandler) price(w http.ResponseWriter, req *http.Request) {
 	item := req.URL.Query().Get("item")
-	price, ok := self[item]
+	price, ok := m[item]
 	if !ok {
 		w.WriteHeader(http.StatusNotFound) // 404
 		fmt.Fprintf(w, "no such item: %q\n", item)

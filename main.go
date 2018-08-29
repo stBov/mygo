@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 	"github.com/tidwall/gjson"
-	"runtime"
 	"myhttp"
 	"myrpc"
+	"runtime"
 )
 
 const (
@@ -17,14 +17,14 @@ const (
 
 //结构体
 type Books struct {
-	title string
-	author string
+	title   string
+	author  string
 	subject string
-	book_id int
+	bookId  int
 }
 
 func Factorial(n uint64)(result uint64) {
-	if (n > 0) {
+	if n > 0 {
 		result = n * Factorial(n-1)
 		return result
 	}
@@ -46,7 +46,7 @@ func max(num1, num2 int) int {
 	/* 声明局部变量 */
 	var result int
 
-	if (num1 > num2) {
+	if num1 > num2 {
 		result = num1
 	} else {
 		result = num2
@@ -88,7 +88,7 @@ func main() {
 	// 创建一个新的结构体
 	fmt.Println(Books{"Go 语言", "shishijie.cc", "Go 语言", 6495407})
 	// 也可以使用 key => value 格式
-	fmt.Println(Books{title: "Go 语言", author: "shishijie.cc", subject: "Go 语言", book_id: 6495407})
+	fmt.Println(Books{title: "Go 语言", author: "shishijie.cc", subject: "Go 语言", bookId: 6495407})
 	// 忽略的字段为 0 或 空
 	fmt.Println(Books{title: "Go 语言", author: "shishijie.cc"})
 

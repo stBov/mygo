@@ -1,13 +1,13 @@
 package myrpc
 
 import (
-	"net/rpc"
-	"github.com/chai2010/pbgo/examples/hello.pb"
-	"net"
-	"log"
 	"fmt"
+	"github.com/chai2010/pbgo/examples/hello.pb"
 	"io/ioutil"
+	"log"
 	"mime"
+	"net"
+	"net/rpc"
 )
 
 type HelloService struct{}
