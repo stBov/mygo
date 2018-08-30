@@ -6,6 +6,7 @@ import (
 	"myhttp"
 	"myrpc"
 	"runtime"
+	"github.com/huichen/sego"
 )
 
 const (
@@ -68,7 +69,18 @@ func isPrime(value int) bool {
 	}
 	return true
 }
-
+//分词 算法（缓存字典，词频的最短路径加动态规划）
+func segotests() {
+	// 载入词典
+	var segmenter sego.Segmenter
+	segmenter.LoadDictionary("dictionary.txt")
+	// 分词
+	text := []byte("中华人民共和国中央人民政府")
+	segments := segmenter.Segment(text)
+	// 处理分词结果
+	// 支持普通模式和搜索模式两种分词，见代码中SegmentsToString函数的注释。
+	fmt.Println(sego.SegmentsToString(segments, false))
+}
 
 
 func main() {
@@ -122,6 +134,7 @@ func main() {
 	var f = fib()
 	fmt.Println(f(),f(),f(),f(),f(),f())
 
+	segotests()
 
 	myrpc.Rpcgo()
 
