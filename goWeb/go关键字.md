@@ -1,12 +1,12 @@
 go web学习
 这一章我们主要介绍了Go语言的一些语法，通过语法我们可以发现Go是多么的简单，只有二十五个关键
 字。让我们再来回顾一下这些关键字都是用来干什么的。</br>
-break default func interface select
-case defer go map struct
-chan else goto package switch
-const fallthrough if range type
-continue for import return var
-
+break default func interface select</br>
+case defer go map struct</br>
+chan else goto package switch</br>
+const fallthrough if range type</br>
+continue for import return var</br>
+</br>
 var和const参考2.2Go语言基础里面的变量和常量申明</br>
 package和import已经有过短暂的接触</br>
 func 用于定义函数和方法</br>
