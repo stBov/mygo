@@ -6,6 +6,7 @@ case defer go map struct
 chan else goto package switch
 const fallthrough if range type
 continue for import return var
+
 var和const参考2.2Go语言基础里面的变量和常量申明
 package和import已经有过短暂的接触
 func 用于定义函数和方法
