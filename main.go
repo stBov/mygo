@@ -84,6 +84,11 @@ func segotests() {
 
 
 func main() {
+	x := "text"
+	xRunes := []rune(x)
+	xRunes[0] = '我'
+	x = string(xRunes)
+	fmt.Println(x) // 我ext
 
 	//go遍历
 	fmt.Println("i=",i)
