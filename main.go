@@ -82,7 +82,13 @@ func segotests() {
 	fmt.Println(sego.SegmentsToString(segments, false))
 }
 
-
+func sum(a []int, c chan int) {
+	total := 0
+	for _, v := range a {
+		total += v
+	}
+	c<- total // send total to c
+}
 func main() {
 	x := "text"
 	xRunes := []rune(x)
@@ -90,6 +96,22 @@ func main() {
 	x = string(xRunes)
 	fmt.Println(x) // 我ext
 
+	a := []int{7, 2, 8, -9, 4, 0}
+	c := make(chan int)
+	go sum(a[:len(a)/2], c)
+	go sum(a[len(a)/2:], c)
+	xxx,yyyy := <-c, <-c
+	fmt.Println(xxx, yyyy, xxx + yyyy)
+
+	cc := make(chan int, 2)
+	cc <- 1
+	cc <- 3
+	v, ok :=<-cc
+	v2, ok2 :=<-cc
+	fmt.Println(v)
+	fmt.Println(ok)
+	fmt.Println(v2)
+	fmt.Println(ok2)
 	//go遍历
 	fmt.Println("i=",i)
 	fmt.Println("j=",j)

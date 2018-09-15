@@ -17,8 +17,8 @@ func sum(a []int, c chan int) {
 total := 0
 for _, v := range a {
 total += v
-} c
-<- total // send total to c
+}
+c<- total // send total to c
 }
 func main() {
 a := []int{7, 2, 8, -9, 4, 0}
@@ -85,6 +85,7 @@ channel已经没有任何数据并且已经被关闭。
 记住应该在生产者的地方关闭channel，而不是消费的地方去关闭它，这样容易引起panic
 另外记住一点的就是channel不像文件之类的，不需要经常去关闭，只有当你确实没有任何发送数据
 了，或者你想显式的结束range循环之类的
+
 Select
 我们上面介绍的都是只有一个channel的情况，那么如果存在多个channel的时候，我们该如何操作呢，Go
 里面提供了一个关键字 select ，通过 select 可以监听channel上的数据流动。
@@ -149,8 +150,7 @@ runtime包中有几个处理goroutine的函数：
 Goexit
 退出当前执行的goroutine，但是defer函数还会继续调用
 Gosched
-让出当前goroutine的执行权限，调度器安排其他等待的任务运行，并在下次某个时候从该位置恢复执
-行。
+让出当前goroutine的执行权限，调度器安排其他等待的任务运行，并在下次某个时候从该位置恢复执行。
 NumCPU
 返回 CPU 核数量
 NumGoroutine
